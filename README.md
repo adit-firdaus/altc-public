@@ -63,9 +63,9 @@ reaches your computer on the same network or over a tailnet (see below).
 | `altc update` | Update to the latest version and restart onto it |
 | `altc status` | Is it running, where, which version (`--json`; exits 3 when stopped) |
 | `altc open` | Open it in the browser |
-| `altc pair` | Pair a phone: pick an address, then scan the QR code, open the link or type the code. Each phone gets its own token |
+| `altc pair` | Pair a phone, on your network or through AltC Cloud: scan the QR code, open the link or type the code, or accept the phone's ask. Each phone gets its own token |
 | `altc devices` | The phones and browsers paired with it: rename one, or sign it out |
-| `altc link` | Link it to your AltC Cloud account, for agent alerts on your phone. `altc link status` says whether it's linked, and to whom |
+| `altc link` | Link it to your AltC Cloud account, for agent alerts on your phone: opens the cloud in your browser, or prints the link for `c` to copy. `altc link status` says whether it's linked, and to whom |
 | `altc unlink` | Unlink it from AltC Cloud |
 | `altc logs -f` | Follow the log |
 
@@ -104,7 +104,17 @@ It starts AltC, or restarts it last, after asking, when something changed.
 altc pair
 ```
 
-It asks where the phone should reach AltC, with the arrow keys:
+When this AltC has a cloud, it first asks how the phone should reach it: **your network**
+or **AltC Cloud**.
+
+AltC Cloud reaches it from anywhere, with no address to set up. If this computer isn't
+linked yet, it signs in the way `altc link` does: the cloud's page opens in your browser,
+or, over SSH or with no display, the link is printed and `c` copies it (through the
+terminal, so it lands on the computer you type on). Then, on the phone, sign in to the
+same account and tap **Pair** beside this computer. Both screens show the same six
+digits; accept here, or refuse, or block the phone.
+
+On your network, it asks where the phone should reach AltC, with the arrow keys:
 
 - **Tailscale**: its tailnet address, from anywhere the phone is on your tailnet.
 - **Tailscale HTTPS**: `https://<machine>.<tailnet>.ts.net`, through `tailscale serve`.
