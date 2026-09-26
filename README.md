@@ -45,6 +45,21 @@ what it does, set these first:
 | `ALTC_NO_RESTART=1` | Leave a running server on the version it runs |
 | `ALTC_BASE` | Another copy of the releases, e.g. one `bun run release serve` serves for a test |
 
+## As a desktop app
+
+Installed from the browser, AltC opens in a window of its own, with its icon in the dock,
+the taskbar or the app launcher. In Chrome, Edge or Brave, open http://localhost:65535 and
+choose **settings › app › install** (or the install button in the address bar); in Safari,
+**File › Add to Dock**. Firefox can't install web apps. Once it's installed, `altc open`
+opens the app instead of a browser tab.
+
+The app shows how many panes want you on its icon, opens a new terminal from the icon's
+menu, and in full screen (**Full screen** in the palette; Chrome, Edge and Brave) keeps Ctrl+W, Ctrl+T and Ctrl+N
+for the terminal. When AltC isn't running, the window says so and how to start it, and
+reloads once it answers. After an update, a bar offers to reload.
+
+Browsers install apps only from a secure page: localhost on the same computer, or HTTPS.
+
 ## The Android app
 
 `altc.apk`, in each [release](https://github.com/adit-firdaus/altc-public/releases/latest),
@@ -62,7 +77,7 @@ reaches your computer on the same network or over a tailnet (see below).
 | `altc restart` | Restart it. Terminals, and what runs in them, carry on |
 | `altc update` | Update to the latest version and restart onto it |
 | `altc status` | Is it running, where, which version (`--json`; exits 3 when stopped) |
-| `altc open` | Open it in the browser |
+| `altc open` | Open it: as an app when it's installed as one (see below), else in the browser. `--browser` opens a browser tab either way |
 | `altc pair` | Pair a phone, on your network or through AltC Cloud: scan the QR code, open the link or type the code, or accept the phone's ask. Each phone gets its own token |
 | `altc devices` | The phones and browsers paired with it: rename one, or sign it out |
 | `altc link` | Link it to your AltC Cloud account, for agent alerts on your phone: opens the cloud in your browser, or prints the link for `c` to copy. `altc link status` says whether it's linked, and to whom |
@@ -185,7 +200,7 @@ folder, the way Windows Terminal reads it (OSC 9;9).
 - Some endpoint security tools flag `conhost.exe --headless`, which keeps the task's
   window hidden. If yours stops the task, `altc run` in a terminal still works.
 
-`altc doctor` checks Bun, the shell, the service, the port, the cloud and its relay, Claude Code, git and folder access. `altc config set ALTC_CLOUD_URL off` turns the cloud off; the published build otherwise uses the one it was built with.
+`altc doctor` checks Bun, the shell, the service, the port, the cloud and its relay, Claude Code and its account, git and folder access. `altc config set ALTC_CLOUD_URL off` turns the cloud off; the published build otherwise uses the one it was built with.
 
 ## Where things are
 
