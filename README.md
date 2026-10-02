@@ -65,8 +65,14 @@ Browsers install apps only from a secure page: localhost on the same computer, o
 `altc.apk`, in each [release](https://github.com/adit-firdaus/altc-public/releases/latest),
 is the app for your phone (Android 8.0 or later). Install it, allow installs from
 your browser or files app when Android asks, then pair it with `altc pair`. Each
-release installs over the one before. This release has no AltC Cloud, so the phone
-reaches your computer on the same network or over a tailnet (see below).
+release installs over the one before. It reaches your computer on the same network,
+over a tailnet, or from anywhere through AltC Cloud once the computer is linked (see
+below). A Google Play build is on its way.
+
+AltC Cloud is optional, and built into each release: `altc link` links this computer to
+your account, and `altc config set ALTC_CLOUD_URL off` turns it off. Signed in, you can
+also run a cloud machine, a small Linux computer with AltC on it, while it's in early
+access. What the cloud keeps is in the [privacy policy](https://altc.alterndigital.com/privacy).
 
 ## Every day
 
@@ -80,6 +86,7 @@ reaches your computer on the same network or over a tailnet (see below).
 | `altc open` | Open it: as an app when it's installed as one (see below), else in the browser. `--browser` opens a browser tab either way |
 | `altc pair` | Pair a phone, on your network or through AltC Cloud: scan the QR code, open the link or type the code, or accept the phone's ask. Each phone gets its own token |
 | `altc devices` | The phones and browsers paired with it: rename one, or sign it out |
+| `altc mcp` | Let agents use AltC through its MCP server: shows its address, the access level and how to connect. `altc mcp add` adds it to Claude Code, `altc mcp access off\|read\|ask\|all` sets how far agents may go (ask before what can't be undone, unless you say), and `altc mcp log` shows what they did |
 | `altc link` | Link it to your AltC Cloud account, for agent alerts on your phone: opens the cloud in your browser, or prints the link for `c` to copy. `altc link status` says whether it's linked, and to whom |
 | `altc unlink` | Unlink it from AltC Cloud |
 | `altc logs -f` | Follow the log |
@@ -167,6 +174,8 @@ altc config                            # show
 altc config set networks tailscale     # who can connect; `all` for every network
 altc config set urls https://altc.example.com
 altc config unset port
+altc config export altc.json           # to move to another machine; no secrets
+altc config import altc.json           # there: secrets and host stay as they were
 altc autostart off
 ```
 
@@ -200,7 +209,7 @@ folder, the way Windows Terminal reads it (OSC 9;9).
 - Some endpoint security tools flag `conhost.exe --headless`, which keeps the task's
   window hidden. If yours stops the task, `altc run` in a terminal still works.
 
-`altc doctor` checks Bun, the shell, the service, the port, the cloud and its relay, Claude Code and its account, git and folder access. `altc config set ALTC_CLOUD_URL off` turns the cloud off; the published build otherwise uses the one it was built with.
+`altc doctor` checks Bun, the shell, the service, the port, each address a phone could pair with (and the command that fixes one that fails), the cloud and its relay, Claude Code and its account, git and folder access. `altc config set ALTC_CLOUD_URL off` turns the cloud off; the published build otherwise uses the one it was built with.
 
 ## Where things are
 
@@ -212,7 +221,8 @@ folder, the way Windows Terminal reads it (OSC 9;9).
 | Log | `~/Library/Logs/AltC/server.log` | `~/.local/state/altc/server.log` | `%LOCALAPPDATA%\altc\state\server.log` |
 | Service | `~/Library/LaunchAgents/com.alterndigital.altc.plist` | `~/.config/systemd/user/altc.service` | Task Scheduler task `AltC` |
 
-The `XDG_*` variables move them. On Linux the server stops when you log out;
+The `XDG_*` variables move them. Past 10 MB, the log and the terminal host's
+`pty-host.log` are set aside as `.1`, with one older `.2` kept. On Linux the server stops when you log out;
 `loginctl enable-linger` keeps it running and starts it at boot.
 
 ## Uninstall
@@ -220,6 +230,10 @@ The `XDG_*` variables move them. On Linux the server stops when you log out;
 ```sh
 altc uninstall        # stops it and removes the service; keeps settings and data
 ```
+
+It also takes AltC's hooks out of Claude Code, Codex, OpenCode, Cursor and
+Antigravity, and puts Claude Code's own status line back, leaving everything
+else in their configs as it was.
 
 Then remove altc itself; `altc uninstall` says how:
 
@@ -230,9 +244,29 @@ Then remove altc itself; `altc uninstall` says how:
 
 Run `altc uninstall` first: removing the files doesn't remove the launchd,
 systemd or Task Scheduler service. To also delete your data, remove the folders
-listed above.
+listed above:
+
+- macOS: `rm -rf ~/.config/altc ~/.local/share/altc ~/.local/state/altc ~/Library/Logs/AltC`
+- Linux: `rm -rf ~/.config/altc ~/.local/share/altc ~/.local/state/altc`
+- Windows: `Remove-Item -Recurse "$env:APPDATA\altc", "$env:LOCALAPPDATA\altc"`
+
+Each project also has its notes in a `.altc` folder of its own; delete those you
+don't want. Claude accounts added in AltC keep their logins in the macOS Keychain:
+remove them in the app (settings › claude accounts) before deleting the data. If
+the computer is linked, unlink it first (`altc unlink`), or delete your cloud
+account: see [delete account](https://altc.alterndigital.com/delete-account).
+
+## Privacy and security
+
+- [Privacy policy](https://altc.alterndigital.com/privacy) and [terms](https://altc.alterndigital.com/terms)
+- [Security](https://altc.alterndigital.com/security): report a vulnerability to
+  altc@alterndigital.com, with a subject that starts `security:` ([SECURITY.md](SECURITY.md))
 
 ## License
 
-[FSL-1.1-ALv2](LICENSE): use, change and share it for anything but a competing
-product or service. Each release becomes Apache 2.0 two years after it ships.
+[FSL-1.1-ALv2](LICENSE): free to use, change and share for anything but a
+competing product or service. Each release becomes Apache 2.0 two years after
+it ships. The source code isn't public yet; this repo holds the releases.
+
+AltC is made by PT Altern Digital Technologies. On Google Play it's published
+through Hiklik's developer account, on our behalf.
