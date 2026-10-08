@@ -6,7 +6,7 @@ script installs it, one command starts it; it runs in the background and comes b
 With Node 18 or later:
 
 ```sh
-npm i -g altc
+npm i -g @alterndigital/altc
 altc start
 ```
 
@@ -33,7 +33,7 @@ Scheduler task of yours on Windows. Where none is available (a container, WSL
 without systemd), it runs as a detached process.
 
 Bun comes with it either way, so you don't need to install anything else. From npm,
-`altc update` runs `npm i -g altc@latest` and restarts a running server; on Windows,
+`altc update` runs `npm i -g @alterndigital/altc@latest` and restarts a running server; on Windows,
 stop altc first (`altc stop`), since Windows can't replace a Bun that's running. macOS, Linux
 (glibc or musl) and Windows 10 (1809) or later, x64 and arm64.
 
