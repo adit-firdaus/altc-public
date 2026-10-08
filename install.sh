@@ -2,7 +2,11 @@
 # Installs AltC for this user on macOS or Linux, with a Bun of its own, so
 # nothing else is needed: no Node, no npm, no sudo (plan 2026-09-25-install).
 #
-#   curl -fsSL https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.sh | sh
+#   curl -fsSLO https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.sh
+#   sh install.sh
+#
+# Downloaded first and then run, not piped into sh, so what runs is the file
+# you can read.
 #
 # Running it again updates AltC, and restarts the server when it runs.
 # Everything comes from AltC's public releases on GitHub: altc's bundle, and a
@@ -99,7 +103,7 @@ platform() {
   case $os in
     Darwin) os=darwin ;;
     Linux) os=linux ;;
-    MINGW* | MSYS* | CYGWIN*) fail "On Windows, run this in PowerShell instead: irm https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.ps1 | iex" ;;
+    MINGW* | MSYS* | CYGWIN*) fail "On Windows, use install.ps1 in PowerShell instead: irm https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.ps1 -OutFile install.ps1, then powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1" ;;
     *) fail "AltC runs on macOS, Linux and Windows, not $os" ;;
   esac
   case $arch in

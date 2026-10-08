@@ -1,19 +1,28 @@
 # AltC
 
-Terminals in the browser and on your phone, with Claude Code in them. One command
-installs it, one starts it; it runs in the background and comes back by itself.
+Terminals in the browser and on your phone, with Claude Code in them. npm or a downloaded
+script installs it, one command starts it; it runs in the background and comes back by itself.
 
-On macOS and Linux:
+With Node 18 or later:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.sh | sh
+npm i -g altc
+altc start
+```
+
+Without Node, on macOS and Linux:
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.sh
+sh install.sh       # read it first if you like
 altc start
 ```
 
 On Windows, in PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.ps1 -OutFile install.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1
 altc start
 ```
 
@@ -23,7 +32,9 @@ admin: it's a launchd agent on macOS, a systemd user service on Linux, and a Tas
 Scheduler task of yours on Windows. Where none is available (a container, WSL
 without systemd), it runs as a detached process.
 
-Bun comes with it, so you don't need to install anything else. macOS, Linux
+Bun comes with it either way, so you don't need to install anything else. From npm,
+`altc update` runs `npm i -g altc@latest` and restarts a running server; on Windows,
+stop altc first (`altc stop`), since Windows can't replace a Bun that's running. macOS, Linux
 (glibc or musl) and Windows 10 (1809) or later, x64 and arm64.
 
 The install script puts altc and a Bun of its own in `~/.altc` (on Windows

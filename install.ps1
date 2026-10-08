@@ -2,7 +2,11 @@
 # own, so nothing else is needed: no Node, no npm, no admin (plan
 # 2026-09-25-install).
 #
-#   irm https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.ps1 -OutFile install.ps1
+#   powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1
+#
+# Downloaded first and then run, not piped into iex, so what runs is the file
+# you can read. (Piped into iex still works.)
 #
 # Running it again updates AltC, and restarts the server when it runs.
 # Everything comes from AltC's public releases on GitHub: altc's bundle, and a
