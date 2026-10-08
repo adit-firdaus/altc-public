@@ -209,7 +209,7 @@ folder, the way Windows Terminal reads it (OSC 9;9).
 - Some endpoint security tools flag `conhost.exe --headless`, which keeps the task's
   window hidden. If yours stops the task, `altc run` in a terminal still works.
 
-`altc doctor` checks Bun, the shell, the service, the port, each address a phone could pair with (and the command that fixes one that fails), the cloud and its relay, Claude Code and its account, git and folder access. `altc config set ALTC_CLOUD_URL off` turns the cloud off; the published build otherwise uses the one it was built with.
+`altc doctor` checks Bun, the shell, the service, the port, each address a phone could pair with (and the command that fixes one that fails), the cloud and its relay, Claude Code and its account, git, folder access, and which language servers the desktop editor can use. `altc config set ALTC_CLOUD_URL off` turns the cloud off; the published build otherwise uses the one it was built with.
 
 ## Where things are
 
