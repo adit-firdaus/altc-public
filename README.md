@@ -86,6 +86,7 @@ access. What the cloud keeps is in the [privacy policy](https://altc.alterndigit
 | `altc link` | Link it to your AltC Cloud account, for agent alerts on your phone: opens the cloud in your browser, or prints the link for `c` to copy. `altc link status` says whether it's linked, and to whom |
 | `altc unlink` | Unlink it from AltC Cloud |
 | `altc logs -f` | Follow the log |
+| `altc uninstall` | Remove the service, and, if you say so, your data and altc itself (`--purge`, `--remove-altc`, `--yes`) |
 
 `altc` on its own, at a terminal, says whether it runs and offers these as a menu.
 
@@ -224,33 +225,45 @@ The `XDG_*` variables move them. Past 10 MB, the log and the terminal host's
 ## Uninstall
 
 ```sh
-altc uninstall        # stops it and removes the service; keeps settings and data
+altc uninstall                  # asks whether to keep your data, and whether to remove altc too
+altc uninstall --yes            # removes the service only; keeps settings and data
+altc uninstall --purge --remove-altc --yes   # everything, without asking
 ```
 
-It also takes AltC's hooks out of Claude Code, Codex, OpenCode, Cursor and
-Antigravity, and puts Claude Code's own status line back, leaving everything
-else in their configs as it was.
+`altc` on its own offers it too, at the bottom of its menu. It stops the
+server, removes the launchd, systemd or Task Scheduler service, takes AltC's
+hooks out of Claude Code, Codex, OpenCode, Cursor and Antigravity, and puts
+Claude Code's own status line back, leaving everything else in their configs
+as it was. Then, at a terminal, it asks:
 
-Then remove altc itself; `altc uninstall` says how:
+1. **Keep my data** or **remove everything**. Removing everything deletes the
+   settings, data and log folders, after a second question that lists them and
+   defaults to no. On a Mac it also takes the logins of Claude accounts added in
+   AltC out of the Keychain. It refuses, and changes nothing, when one of those
+   folders is outside your home folder or has a disk mounted inside it.
+2. **Remove altc itself too?** With `npm rm -g @alterndigital/altc` when npm
+   installed it, or by deleting `~/.altc` and the `# altc` PATH line the
+   install script added to your shell's startup file.
 
-- macOS and Linux: `rm -rf ~/.altc`, and the `# altc` line in your shell's
-  startup file.
-- Windows: `Remove-Item -Recurse "$env:LOCALAPPDATA\Programs\altc"`, and that
-  folder's `bin` from your user PATH.
+Without a terminal, or with `--yes`, it only removes the service unless
+`--purge` (the data) or `--remove-altc` (altc itself) say otherwise. Run from
+one of AltC's own terminals, the deleting carries on in the background once the
+terminal closes.
 
-Run `altc uninstall` first: removing the files doesn't remove the launchd,
-systemd or Task Scheduler service. To also delete your data, remove the folders
-listed above:
+On Windows altc can't delete itself while its Bun runs, so it says how instead:
+`Remove-Item -Recurse "$env:LOCALAPPDATA\Programs\altc"`, and that folder's
+`bin` from your user PATH, or `npm rm -g @alterndigital/altc`.
 
-- macOS: `rm -rf ~/.config/altc ~/.local/share/altc ~/.local/state/altc ~/Library/Logs/AltC`
-- Linux: `rm -rf ~/.config/altc ~/.local/share/altc ~/.local/state/altc`
-- Windows: `Remove-Item -Recurse "$env:APPDATA\altc", "$env:LOCALAPPDATA\altc"`
+The folders it deletes with `--purge`:
 
-Each project also has its notes in a `.altc` folder of its own; delete those you
-don't want. Claude accounts added in AltC keep their logins in the macOS Keychain:
-remove them in the app (settings › claude accounts) before deleting the data. If
-the computer is linked, unlink it first (`altc unlink`), or delete your cloud
-account: see [delete account](https://altc.alterndigital.com/delete-account).
+- macOS: `~/.config/altc ~/.local/share/altc ~/.local/state/altc ~/Library/Logs/AltC`
+- Linux: `~/.config/altc ~/.local/share/altc ~/.local/state/altc`
+- Windows: `$env:APPDATA\altc` and `$env:LOCALAPPDATA\altc`
+
+Each project also has its notes in a `.altc` folder of its own; those stay,
+delete the ones you don't want. If the computer is linked, unlink it first
+(`altc unlink`), or delete your cloud account: see
+[delete account](https://altc.alterndigital.com/delete-account).
 
 ## Privacy and security
 
