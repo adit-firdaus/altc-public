@@ -1,28 +1,12 @@
 # AltC
 
-Terminals in the browser and on your phone, with Claude Code in them. npm or a downloaded
-script installs it, one command starts it; it runs in the background and comes back by itself.
+Terminals in the browser and on your phone, with Claude Code in them. npm installs it, one
+command starts it; it runs in the background and comes back by itself.
 
 With Node 18 or later:
 
 ```sh
 npm i -g @alterndigital/altc
-altc start
-```
-
-Without Node, on macOS and Linux:
-
-```sh
-curl -fsSLO https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.sh
-sh install.sh       # read it first if you like
-altc start
-```
-
-On Windows, in PowerShell:
-
-```powershell
-irm https://raw.githubusercontent.com/adit-firdaus/altc-public/main/install.ps1 -OutFile install.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File install.ps1
 altc start
 ```
 
@@ -32,12 +16,13 @@ admin: it's a launchd agent on macOS, a systemd user service on Linux, and a Tas
 Scheduler task of yours on Windows. Where none is available (a container, WSL
 without systemd), it runs as a detached process.
 
-Bun comes with it either way, so you don't need to install anything else. From npm,
+Bun comes with it, so you don't need to install anything else. From npm,
 `altc update` runs `npm i -g @alterndigital/altc@latest` and restarts a running server; on Windows,
 stop altc first (`altc stop`), since Windows can't replace a Bun that's running. macOS, Linux
 (glibc or musl) and Windows 10 (1809) or later, x64 and arm64.
 
-The install script puts altc and a Bun of its own in `~/.altc` (on Windows
+An older install made with the install script (no longer offered; the cloud machine
+image still uses it) puts altc and a Bun of its own in `~/.altc` (on Windows
 `%LOCALAPPDATA%\Programs\altc`), and adds its `bin` folder to your PATH. It
 takes everything from the releases of
 [altc-public](https://github.com/adit-firdaus/altc-public/releases), and checks
